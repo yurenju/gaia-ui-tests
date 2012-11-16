@@ -45,5 +45,33 @@ var GaiaDataLayer = {
         volume.onerror = function onerror(){
             console.log('volume set failed', volume.error.name);
         }
+    },
+
+    toggleCellData: function(cdata){
+        lock = window.navigator.mozSettings.createLock();
+        data = lock.set({"ril.data.enabled" : cdata});
+
+        data.onsuccess = function onsuccess(){
+            console.log("Success toggling cellular data", data);
+        }
+
+        data.onerror = function onerror(){
+            console.log("Error toggling cellular data", data.error.name);
+        }
+        return data.error === null;
+    },
+
+    toggleCellRoaming: function(rdata){
+        lock = window.navigator.mozSettings.createLock();
+        roaming = lock.set({"ril.data.roaming_enabled" : rdata});
+
+        roaming.onsuccess = function onsuccess(){
+           console.log("Success toggling cellular roaming data", roaming);
+        }
+
+        roaming.onerror = function onerror(){
+           console.log("Error toggling cellular roaming data", roaming.error.name);
+        }
+        return roaming.error === null;
     }
 };

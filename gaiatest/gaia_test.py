@@ -102,6 +102,12 @@ class GaiaData(object):
     def set_volume(self, volume):
         self.marionette.execute_script("GaiaDataLayer.setVolume(%s)" % volume)
 
+    def toggle_cell_data(self, toggle):
+        return self.marionette.execute_script("GaiaDataLayer.toggleCellData(%s)" % toggle)
+
+    def toggle_cell_roaming(self, toggle):
+        return self.marionette.execute_script("GaiaDataLayer.toggleCellRoaming(%s)" % toggle)
+
 class GaiaTestCase(MarionetteTestCase):
 
     def setUp(self):
