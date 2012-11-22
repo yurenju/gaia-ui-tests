@@ -105,6 +105,9 @@ class GaiaData(object):
     def remove_contact(self, contact):
         self.marionette.execute_script("GaiaDataLayer.findAndRemoveContact(%s)" % contact.json())
 
+    def get_setting(self, name):
+        return self.marionette.execute_script('return GaiaDataLayer.getSetting("%s")' % name)
+
     def set_volume(self, volume):
         self.marionette.execute_script("GaiaDataLayer.setVolume(%s)" % volume)
 

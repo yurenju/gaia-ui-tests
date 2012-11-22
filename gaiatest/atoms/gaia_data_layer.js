@@ -38,6 +38,11 @@ var GaiaDataLayer = {
         }
     },
 
+    getSetting: function(aName) {
+        lock = window.navigator.mozSettings.createLock();
+        return lock.get(aName);
+    },
+
     setVolume: function(vdata){
         lock = window.navigator.mozSettings.createLock();
         volume = lock.set({"audio.volume.master":vdata});
