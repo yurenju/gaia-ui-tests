@@ -27,10 +27,13 @@ class TestGallery(GaiaTestCase):
         # throbber is throbbing forever
         self.wait_for_element_displayed(*self._gallery_items_locator)
 
+
         self.marionette.find_elements(*self._gallery_items_locator)[0].click()
 
-        current_image = self.wait_for_element_present(*self._current_image_locator)
-        self.assertTrue(current_image.is_displayed())
+        current_image = self.marionette.find_element(*self._current_image_locator)
+
+        self.wait_for_element_displayed(*self._current_image_locator)
+        self.assertIsNotNone(current_image.get_attribute('src'))
 
         # TODO
         # Add steps to view picture full screen
