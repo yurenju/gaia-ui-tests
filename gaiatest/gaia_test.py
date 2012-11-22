@@ -106,34 +106,34 @@ class GaiaData(object):
         self.marionette.execute_script("GaiaDataLayer.findAndRemoveContact(%s)" % contact.json())
 
     def get_setting(self, name):
-        return self.marionette.execute_script('return GaiaDataLayer.getSetting("%s")' % name)
+        return self.marionette.execute_async_script('return GaiaDataLayer.getSetting("%s")' % name)
 
     def set_volume(self, volume):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("audio.volume.master", %s)' % volume)
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("audio.volume.master", %f)' % volume)
 
     def enable_cell_data(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.enabled", true)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("ril.data.enabled", true)')
 
     def disable_cell_data(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.enabled", false)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("ril.data.enabled", false)')
 
     def enable_cell_roaming(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", true)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", true)')
 
     def disable_cell_roaming(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", false)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", false)')
 
     def enable_wifi(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("wifi.enabled", true)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("wifi.enabled", true)')
 
     def disable_wifi(self):
-        self.marionette.execute_script('GaiaDataLayer.setSetting("wifi.enabled", false)')
+        self.marionette.execute_async_script('GaiaDataLayer.setSetting("wifi.enabled", false)')
 
     def connect_to_wifi(self, ssid):
-        self.marionette.execute_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
+        self.marionette.execute_async_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
 
     def forget_wifi(self, ssid):
-        self.marionette.execute_script("return GaiaDataLayer.forgetWiFI('%s')" % ssid)
+        self.marionette.execute_async_script("return GaiaDataLayer.forgetWiFI('%s')" % ssid)
 
 class GaiaTestCase(MarionetteTestCase):
 

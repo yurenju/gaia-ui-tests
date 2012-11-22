@@ -16,7 +16,7 @@ class TestSettings(GaiaTestCase):
         self.assertTrue(self.data_layer.get_setting(setting_name))
 
         self.data_layer.disable_cell_data()
-        self.assertFalse(self.data_layer.get_setting(setting_name)['result'])
+        self.assertFalse(self.data_layer.get_setting(setting_name))
 
     def test_set_cell_roaming(self):
         setting_name = 'ril.data.roaming_enabled'
@@ -27,7 +27,8 @@ class TestSettings(GaiaTestCase):
         self.assertTrue(self.data_layer.get_setting(setting_name))
 
         self.data_layer.disable_cell_roaming()
-        self.assertFalse(self.data_layer.get_setting(setting_name)['result'])
+        self.assertFalse(self.data_layer.get_setting(setting_name))
+
 
     def test_set_wifi(self):
         setting_name = 'wifi.enabled'
@@ -38,4 +39,4 @@ class TestSettings(GaiaTestCase):
         self.assertTrue(self.data_layer.get_setting(setting_name))
 
         self.data_layer.disable_wifi()
-        self.assertFalse(self.data_layer.get_setting(setting_name)['result'])
+        self.assertFalse(self.data_layer.get_setting(setting_name))

@@ -39,19 +39,26 @@ var GaiaDataLayer = {
     },
 
     getSetting: function(aName) {
-        lock = window.navigator.mozSettings.createLock();
-        return lock.get(aName);
+        req = window.navigator.mozSettings.createLock().get(aName);
+        req.onsuccess = function () {
+            console.log('setting retrieved');
+            marionetteScriptFinished(req.result[aName]);
+        }
+        req.onerror = function () {
+            console.log('error getting setting', req.error.name);
+        }
     },
 
     setSetting: function(aName, aValue) {
-        lock = window.navigator.mozSettings.createLock();
-        result = lock.set({aName:aValue});
-        lock.clear()
-        result.onsuccess = function onsuccess(){
-            console.log('setting changed', result);
+        var setting = {};
+        setting[aName] = aValue;
+        req = window.navigator.mozSettings.createLock().set(setting);
+        req.onsuccess = function () {
+            console.log('setting changed');
+            marionetteScriptFinished(true);
         }
-        result.onerror = function onerror(){
-            console.log('error changing setting', result.error.name);
+        req.onerror = function () {
+            console.log('error changing setting', req.error.name);
         }
     },
 
