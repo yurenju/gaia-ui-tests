@@ -130,10 +130,10 @@ class GaiaData(object):
         self.marionette.execute_async_script('GaiaDataLayer.setSetting("wifi.enabled", false)')
 
     def connect_to_wifi(self, ssid):
-        self.marionette.execute_async_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
+        self.marionette.execute_script("return GaiaDataLayer.connectToWiFi('%s')" % ssid)
 
     def forget_wifi(self, ssid):
-        self.marionette.execute_async_script("return GaiaDataLayer.forgetWiFI('%s')" % ssid)
+        self.marionette.execute_script("return GaiaDataLayer.forgetWiFi('%s')" % ssid)
 
 class GaiaTestCase(MarionetteTestCase):
 
