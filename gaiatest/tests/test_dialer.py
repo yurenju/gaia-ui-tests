@@ -74,14 +74,12 @@ class TestDialer(GaiaTestCase):
         Dial a number using the keypad
         '''
 
-        # TODO Doesn't work for + yet, requires click/hold gestures
         for i in phone_number:
-            # ignore non-numeric part of phone number until we have gestures
             if i is "+":
                 zero_element = self.marionette.find_element('css selector', 'div.keypad-key div[data-value="0"]')
-                self.marionette.long_press(zero_element, 1000)
+                self.marionette.long_press(zero_element, 1200)
                 # Wait same time as the long_press to bust the asynchronous
-                time.sleep(1)
+                time.sleep(2)
             else:
                 self.marionette.find_element('css selector', 'div.keypad-key div[data-value="%s"]' % i).click()
                 time.sleep(0.25)
