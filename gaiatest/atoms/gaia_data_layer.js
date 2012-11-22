@@ -43,68 +43,15 @@ var GaiaDataLayer = {
         return lock.get(aName);
     },
 
-    setVolume: function(vdata){
+    setSetting: function(aName, aValue) {
         lock = window.navigator.mozSettings.createLock();
-        volume = lock.set({"audio.volume.master":vdata});
-        lock.clear();
-        volume.onerror = function onerror(){
-            console.log('volume set failed', volume.error.name);
+        result = lock.set({aName:aValue});
+        lock.clear()
+        result.onsuccess = function onsuccess(){
+            console.log('setting changed', result);
         }
-    },
-
-    toggleCellData: function(cdata){
-        lock = window.navigator.mozSettings.createLock();
-        data = lock.set({"ril.data.enabled" : cdata});
-
-        data.onsuccess = function onsuccess(){
-            console.log("Success toggling cellular data", data);
-        }
-
-        data.onerror = function onerror(){
-            console.log("Error toggling cellular data", data.error.name);
-        }
-        return data.error === null;
-    },
-
-    toggleCellRoaming: function(rdata){
-        lock = window.navigator.mozSettings.createLock();
-        roaming = lock.set({"ril.data.roaming_enabled" : rdata});
-
-        roaming.onsuccess = function onsuccess(){
-           console.log("Success toggling cellular roaming data", roaming);
-        }
-
-        roaming.onerror = function onerror(){
-           console.log("Error toggling cellular roaming data", roaming.error.name);
-        }
-        return roaming.error === null;
-    },
-
-    enableWiFi: function(){
-        lock = window.navigator.mozSettings.createLock();
-        wifiOn = lock.set({"wifi.enabled": true});
-        wifiOn.onsuccess = function(){
-            console.log('WiFi ON');
-            return true;
-        }
-
-        wifiOn.onerror = function(){
-            console.log('WiFi On failed', wifiOn.error.name);
-            return false;
-        }
-    },
-
-    disableWiFi: function(){
-        lock = window.navigator.mozSettings.createLock();
-        wifiOn = lock.set({"wifi.enabled": false});
-        wifiOn.onsuccess = function(){
-            console.log('WiFi OFF');
-            return true;
-        }
-
-        wifiOn.onerror = function(){
-            console.log('WiFi OFF failed', wifiOn.error.name);
-            return false;
+        result.onerror = function onerror(){
+            console.log('error changing setting', result.error.name);
         }
     },
 

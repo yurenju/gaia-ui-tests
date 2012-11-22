@@ -109,19 +109,25 @@ class GaiaData(object):
         return self.marionette.execute_script('return GaiaDataLayer.getSetting("%s")' % name)
 
     def set_volume(self, volume):
-        self.marionette.execute_script("GaiaDataLayer.setVolume(%s)" % volume)
+        self.marionette.execute_script('GaiaDataLayer.setSetting("audio.volume.master", %s)' % volume)
 
-    def toggle_cell_data(self, toggle):
-        return self.marionette.execute_script("GaiaDataLayer.toggleCellData(%s)" % toggle)
+    def enable_cell_data(self):
+        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.enabled", true)')
 
-    def toggle_cell_roaming(self, toggle):
-        return self.marionette.execute_script("GaiaDataLayer.toggleCellRoaming(%s)" % toggle)
+    def disable_cell_data(self):
+        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.enabled", false)')
+
+    def enable_cell_roaming(self):
+        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", true)')
+
+    def disable_cell_roaming(self):
+        self.marionette.execute_script('GaiaDataLayer.setSetting("ril.data.roaming_enabled", false)')
 
     def enable_wifi(self):
-        self.marionette.execute_script('GaiaDataLayer.enableWiFi()')
+        self.marionette.execute_script('GaiaDataLayer.setSetting("wifi.enabled", true)')
 
     def disable_wifi(self):
-        self.marionette.execute_script('GaiaDataLayer.disableWiFi()')
+        self.marionette.execute_script('GaiaDataLayer.setSetting("wifi.enabled", false)')
 
     def connect_to_wifi(self, ssid):
         self.marionette.execute_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
