@@ -14,7 +14,7 @@ class TestDialer(GaiaTestCase):
     _hangup_bar_locator = ('id', 'callbar-hang-up-action')
     _call_screen_locator = ('css selector', "iframe[name='call_screen']")
 
-    _test_phone_number = "1234567890"
+    _test_phone_number = "+1234567890"
 
     def setUp(self):
 
@@ -77,6 +77,11 @@ class TestDialer(GaiaTestCase):
         # TODO Doesn't work for + yet, requires click/hold gestures
         for i in phone_number:
             # ignore non-numeric part of phone number until we have gestures
-            if int(i) in range(0, 10):
+            if i is "+":
+                zero_element = self.marionette.find_element('css selector', 'div.keypad-key div[data-value="0"]')
+                self.marionette.long_press(zero_element, 1000)
+                # Wait same time as the long_press to bust the asynchronous
+                time.sleep(1)
+            else:
                 self.marionette.find_element('css selector', 'div.keypad-key div[data-value="%s"]' % i).click()
                 time.sleep(0.25)
