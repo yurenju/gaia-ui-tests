@@ -28,3 +28,14 @@ class TestSettings(GaiaTestCase):
 
         self.data_layer.toggle_cell_roaming('false')
         self.assertFalse(self.data_layer.get_setting(setting_name)['result'])
+
+    def test_set_wifi(self):
+        setting_name = 'wifi.enabled'
+
+        self.lockscreen.unlock()
+
+        self.data_layer.enable_wifi()
+        self.assertTrue(self.data_layer.get_setting(setting_name))
+
+        self.data_layer.disable_wifi()
+        self.assertFalse(self.data_layer.get_setting(setting_name)['result'])

@@ -118,10 +118,10 @@ class GaiaData(object):
         return self.marionette.execute_script("GaiaDataLayer.toggleCellRoaming(%s)" % toggle)
 
     def enable_wifi(self):
-        self.marionette.execute_script("return GaiaDataLayer.enableWifi()")
+        self.marionette.execute_script('GaiaDataLayer.enableWiFi()')
 
     def disable_wifi(self):
-        self.marionette.execute_script("return GaiaDataLayer.disableWifi()")
+        self.marionette.execute_script('GaiaDataLayer.disableWiFi()')
 
     def connect_to_wifi(self, ssid):
         self.marionette.execute_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
