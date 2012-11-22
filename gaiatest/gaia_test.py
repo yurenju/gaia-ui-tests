@@ -156,6 +156,8 @@ class GaiaTestCase(MarionetteTestCase):
         self.apps = GaiaApps(self.marionette)
         self.data_layer = GaiaData(self.marionette)
 
+        self.apps.kill_all()
+
     def wait_for_element_present(self, by, locator, timeout=10):
         timeout = float(timeout) + time.time()
 
