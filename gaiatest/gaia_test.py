@@ -51,7 +51,7 @@ class GaiaApps(object):
         if app.frame_id is None:
             raise Exception("App failed to launch; there is no app frame")
         if switch_to_frame:
-           self.switch_to_frame(app.frame_id, url) 
+            self.switch_to_frame(app.frame_id, url)
         return app
 
     def uninstall(self, name):
@@ -90,6 +90,7 @@ return window.wrappedJSObject.WindowManager.getRunningApps();
                 return
             time.sleep(2)
         raise TimeoutException('Could not switch to app frame %s in time' % app_frame)
+
 
 class GaiaData(object):
 
@@ -140,6 +141,7 @@ class GaiaData(object):
 
     def forget_wifi(self, ssid):
         self.marionette.execute_script("return GaiaDataLayer.forgetWiFi('%s')" % ssid)
+
 
 class GaiaTestCase(MarionetteTestCase):
 
