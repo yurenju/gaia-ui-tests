@@ -7,7 +7,6 @@ from gaiatest.mocks.mock_contact import MockContact
 import unittest
 import time
 
-
 class TestContacts(GaiaTestCase):
 
     _loading_overlay = ('id', 'loading-overlay')
@@ -48,13 +47,6 @@ class TestContacts(GaiaTestCase):
 
         # launch the Contacts app
         self.app = self.apps.launch('Contacts')
-        self.assertTrue(self.app.frame_id is not None)
-
-        # switch into the Contact's frame
-        self.marionette.switch_to_frame(self.app.frame_id)
-        url = self.marionette.get_url()
-        self.assertTrue('communications' in url, 'wrong url: %s' % url)
-
         self.wait_for_element_not_displayed(*self._loading_overlay)
 
 
@@ -62,6 +54,7 @@ class TestContacts(GaiaTestCase):
         # https://moztrap.mozilla.org/manage/case/1309/
         #click Create new contact
 
+        self.wait_for_element_displayed(*self._add_new_contact_button_locator)
         self.marionette.find_element(
             *self._add_new_contact_button_locator).click()
         self.wait_for_element_displayed(*self._given_name_field_locator)
@@ -90,8 +83,7 @@ class TestContacts(GaiaTestCase):
         done_button = self.marionette.find_element(*self._done_button_locator)
         done_button.click()
 
-        contact_locator = (
-            'xpath', "//strong/b[text()='%s']" % self.contact['givenName'])
+        contact_locator = ('xpath', "//strong[text()='%s']" % self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
 
@@ -101,9 +93,8 @@ class TestContacts(GaiaTestCase):
 
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
-
-        contact_locator = ('xpath',"//li[@class='block-item'][descendant::b[text()='%s']]"
-            % self.contact['givenName'])
+        
+        contact_locator = ('xpath', "//strong[text()='%s']" % self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
@@ -132,9 +123,6 @@ class TestContacts(GaiaTestCase):
 
         self.marionette.find_element(*self._details_back_button_locator).click()
 
-        contact_locator = ('xpath',"//li[@class='block-item'][descendant::b[text()='%s']]"
-            % self.contact['givenName'])
-
         # click back into the contact
         edited_contact = self.wait_for_element_present(*contact_locator)
         edited_contact.click()
@@ -157,17 +145,14 @@ class TestContacts(GaiaTestCase):
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
 
-        contact_locator = ('xpath',"//li[@class='block-item'][descendant::b[text()='%s']]" % self.contact['givenName'])
+        contact_locator = ('xpath', "//strong[text()='%s']" % self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
-        time.sleep(2)
         self.marionette.find_element(*self._call_phone_number_button_locator).click()
 
         self.marionette.switch_to_frame()
 
-        #print self.marionette.page_source
-        #self.marionette.switch_to_frame(dialer)
         # TODO Verify the dialer has opened and displays the phone number in dialer
 
 
@@ -178,12 +163,12 @@ class TestContacts(GaiaTestCase):
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
 
-        contact_locator = ('xpath',"//li[@class='block-item'][descendant::b[text()='%s']]" % self.contact['givenName'])
+        contact_locator = ('xpath', "//strong[text()='%s']" % self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
 
-        self.wait_for_element_displayed(*self._send_sms_button_locator)
+        self.wait_for_element_present(*self._send_sms_button_locator)
         self.marionette.find_element(*self._send_sms_button_locator).click()
 
         self.marionette.switch_to_frame()
