@@ -40,3 +40,13 @@ class TestSettings(GaiaTestCase):
 
         self.data_layer.disable_wifi()
         self.assertFalse(self.data_layer.get_setting(setting_name))
+
+    def test_set_volume(self):
+        setting_name = 'audio.volume.master'
+
+        self.lockscreen.unlock()
+
+        for i in range(1, 11):
+            value = i / 10.0
+            self.data_layer.set_volume(value)
+            self.assertEqual(self.data_layer.get_setting(setting_name), value)
