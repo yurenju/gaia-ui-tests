@@ -49,7 +49,7 @@ class TestContacts(GaiaTestCase):
         self.app = self.apps.launch('Contacts')
         self.wait_for_element_not_displayed(*self._loading_overlay)
 
-    def get_contact_locator(self, contact):
+    def create_contact_locator(self, contact):
         return ('xpath', "//strong[text()='%s']" % contact)
 
     def test_add_new_contact(self):
@@ -85,7 +85,7 @@ class TestContacts(GaiaTestCase):
         done_button = self.marionette.find_element(*self._done_button_locator)
         done_button.click()
 
-        contact_locator = self.get_contact_locator(self.contact['givenName'])
+        contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
 
@@ -96,7 +96,7 @@ class TestContacts(GaiaTestCase):
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
         
-        contact_locator = self.get_contact_locator(self.contact['givenName'])
+        contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
@@ -147,7 +147,7 @@ class TestContacts(GaiaTestCase):
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
 
-        contact_locator = self.get_contact_locator(self.contact['givenName'])
+        contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
@@ -165,7 +165,7 @@ class TestContacts(GaiaTestCase):
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
 
-        contact_locator = self.get_contact_locator(self.contact['givenName'])
+        contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
         self.marionette.find_element(*contact_locator).click()
