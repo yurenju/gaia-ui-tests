@@ -38,40 +38,28 @@ var GaiaDataLayer = {
         }
     },
 
-    setVolume: function(vdata){
-        lock = window.navigator.mozSettings.createLock();
-        volume = lock.set({"audio.volume.master":vdata});
-        lock.clear();
-        volume.onerror = function onerror(){
-            console.log('volume set failed', volume.error.name);
+    getSetting: function(aName) {
+        req = window.navigator.mozSettings.createLock().get(aName);
+        req.onsuccess = function () {
+            console.log('setting retrieved');
+            marionetteScriptFinished(req.result[aName]);
+        }
+        req.onerror = function () {
+            console.log('error getting setting', req.error.name);
         }
     },
 
-    enableWiFi: function(){
-        lock = window.navigator.mozSettings.createLock();
-        wifiOn = lock.set({"wifi.enabled": true});
-        wifiOn.onsuccess = function(){
-            console.log('WiFi ON');
-            return true;
+    setSetting: function(aName, aValue) {
+        var setting = {};
+        setting[aName] = aValue;
+        req = window.navigator.mozSettings.createLock().set(setting);
+        req.onsuccess = function () {
+            console.log('setting changed');
+            marionetteScriptFinished(true);
         }
-
-        wifiOn.onerror = function(){
-            console.log('WiFi On failed', wifiOn.error.name);
-            return false;
-        }
-    },
-
-    disableWiFi: function(){
-        lock = window.navigator.mozSettings.createLock();
-        wifiOn = lock.set({"wifi.enabled": false});
-        wifiOn.onsuccess = function(){
-            console.log('WiFi OFF');
-            return true;
-        }
-
-        wifiOn.onerror = function(){
-            console.log('WiFi OFF failed', wifiOn.error.name);
-            return false;
+        req.onerror = function () {
+            console.log('error changing setting', req.error.name);
+            marionetteScriptFinished(false);
         }
     },
 

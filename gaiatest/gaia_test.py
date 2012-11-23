@@ -105,20 +105,41 @@ class GaiaData(object):
     def remove_contact(self, contact):
         self.marionette.execute_script("GaiaDataLayer.findAndRemoveContact(%s)" % contact.json())
 
-    def set_volume(self, volume):
-        self.marionette.execute_script("GaiaDataLayer.setVolume(%s)" % volume)
+    def get_setting(self, name):
+        return self.marionette.execute_async_script('return GaiaDataLayer.getSetting("%s")' % name)
+
+    def set_setting(self, name, value):
+        import json
+        value = json.dumps(value)
+        result = self.marionette.execute_async_script('return GaiaDataLayer.setSetting("%s", %s)' % (name, value))
+        assert result, "Unable to change setting with name '%s' to '%s'" % (name, value)
+
+    def set_volume(self, value):
+        self.set_setting('audio.volume.master', value)
+
+    def enable_cell_data(self):
+        self.set_setting('ril.data.enabled', True)
+
+    def disable_cell_data(self):
+        self.set_setting('ril.data.enabled', False)
+
+    def enable_cell_roaming(self):
+        self.set_setting('ril.data.roaming_enabled', True)
+
+    def disable_cell_roaming(self):
+        self.set_setting('ril.data.roaming_enabled', False)
 
     def enable_wifi(self):
-        self.marionette.execute_script("return GaiaDataLayer.enableWifi()")
+        self.set_setting('wifi.enabled', True)
 
     def disable_wifi(self):
-        self.marionette.execute_script("return GaiaDataLayer.disableWifi()")
+        self.set_setting('wifi.enabled', False)
 
     def connect_to_wifi(self, ssid):
-        self.marionette.execute_script("return GaiaDataLayer.connectToWiFI('%s')" % ssid)
+        self.marionette.execute_script("return GaiaDataLayer.connectToWiFi('%s')" % ssid)
 
     def forget_wifi(self, ssid):
-        self.marionette.execute_script("return GaiaDataLayer.forgetWiFI('%s')" % ssid)
+        self.marionette.execute_script("return GaiaDataLayer.forgetWiFi('%s')" % ssid)
 
 class GaiaTestCase(MarionetteTestCase):
 
