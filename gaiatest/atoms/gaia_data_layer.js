@@ -59,6 +59,7 @@ var GaiaDataLayer = {
         }
         req.onerror = function () {
             console.log('error changing setting', req.error.name);
+            marionetteScriptFinished(false);
         }
     },
 

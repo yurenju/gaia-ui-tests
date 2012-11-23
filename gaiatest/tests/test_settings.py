@@ -7,6 +7,14 @@ from gaiatest import GaiaTestCase
 
 class TestSettings(GaiaTestCase):
 
+    def test_set_named_setting(self):
+        setting_name = 'my.setting'
+
+        self.lockscreen.unlock()
+
+        self.data_layer.set_setting(setting_name, 'my.value')
+        self.assertEquals(self.data_layer.get_setting(setting_name), 'my.value')
+
     def test_set_cell_data(self):
         setting_name = 'ril.data.enabled'
 
