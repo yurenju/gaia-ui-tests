@@ -4,6 +4,7 @@
 
 from gaiatest import GaiaTestCase
 
+
 class TestLaunchEntrypoint(GaiaTestCase):
 
     """ Special test because it verifies we can open apps
