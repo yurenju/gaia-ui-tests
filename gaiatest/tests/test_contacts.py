@@ -10,6 +10,7 @@ from gaiatest.mocks.mock_contact import MockContact
 
 from marionette.errors import NoSuchElementException
 
+
 class TestContacts(GaiaTestCase):
 
     _loading_overlay = ('id', 'loading-overlay')
@@ -91,14 +92,13 @@ class TestContacts(GaiaTestCase):
         contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
-
     def test_edit_contact(self):
         # https://moztrap.mozilla.org/manage/case/1310/
         # First insert a new contact to edit
 
         self.data_layer.insert_contact(self.contact)
         self.marionette.refresh()
-        
+
         contact_locator = self.create_contact_locator(self.contact['givenName'])
         self.wait_for_element_displayed(*contact_locator)
 
@@ -138,10 +138,10 @@ class TestContacts(GaiaTestCase):
 
         # Due to a previous issue this will check that the original contact is no longer present
         self.assertRaises(NoSuchElementException,
-            self.marionette.find_element, contact_locator[0], contact_locator[1])
+                          self.marionette.find_element, contact_locator[0], contact_locator[1])
 
         self.assertTrue(edited_contact.is_displayed(),
-            "Expected the edited contact to be present")
+                        "Expected the edited contact to be present")
 
         edited_contact.click()
 
@@ -149,10 +149,9 @@ class TestContacts(GaiaTestCase):
         full_name = self.contact['givenName'] + " " + self.contact['familyName']
 
         self.assertEqual(self.marionette.find_element(*self._contact_name_title).text,
-            full_name)
+                         full_name)
         self.assertEqual(self.marionette.find_element(*self._call_phone_number_button_locator).text,
-            self.contact['tel']['value'])
-
+                         self.contact['tel']['value'])
 
     @unittest.skip("Scheduled for deletion as this makes a call")
     def test_call_contact(self):
@@ -201,7 +200,7 @@ class TestContacts(GaiaTestCase):
 
         self.assertEqual(header_element.text, expected_name)
         self.assertEqual(header_element.get_attribute('data-phone-number'),
-            expected_tel)
+                         expected_tel)
 
     def tearDown(self):
 
