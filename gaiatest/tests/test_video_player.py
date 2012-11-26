@@ -26,13 +26,18 @@ class TestVideoPlayer(GaiaTestCase):
         # unlock the lockscreen if it's locked
         self.assertTrue(self.lockscreen.unlock())
 
-        # launch the Gallery app
+        # launch the Video app
         self.app = self.apps.launch('Video')
         self.wait_for_element_displayed(*self._video_items_locator)
 
     def test_play_video(self):
 
-        first_video = self.marionette.find_elements(*self._video_items_locator)[0]
+        all_videos = self.marionette.find_elements(*self._video_items_locator)
+
+        # Assert that there are more than one video available
+        self.assertGreater(all_videos, 0)
+
+        first_video = all_videos[0]
         first_video_name = first_video.find_element(*self._video_name_locator).text
 
         # click on the first video
