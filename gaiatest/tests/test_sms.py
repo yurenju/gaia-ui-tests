@@ -77,16 +77,16 @@ class TestSms(GaiaTestCase):
         # TODO Due to displayed bugs I cannot find a good wait for switch btw views
         time.sleep(5)
 
-        # get the last listed and last received text message
+        # get the most recent listed and most recent received text message
         received_message = self.marionette.find_elements(
             *self._received_message_content_locator)[-1]
 
         last_message = self.marionette.find_elements(*self._all_messages_locator)[-1]
 
-        # Check the last received message has the same text content
+        # Check the most recent received message has the same text content
         self.assertEqual(_text_message_content, received_message.text)
 
-        # Check that the last message is also the last received message
+        # Check that most recent message is also the most recent received message
         self.assertEqual(received_message.get_attribute('id'),
             last_message.get_attribute('id'))
 
