@@ -3,6 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from marionette import MarionetteTestCase
+from marionette import Marionette
+from marionette import MarionetteTouchMixin
 from marionette.errors import NoSuchElementException
 from marionette.errors import ElementNotVisibleException
 from marionette.errors import TimeoutException
@@ -49,8 +51,11 @@ class GaiaApps(object):
         if app.frame_id is None:
             raise Exception("App failed to launch; there is no app frame")
         if switch_to_frame:
-           self.switch_to_frame(app.frame_id, url) 
+            self.switch_to_frame(app.frame_id, url)
         return app
+
+    def uninstall(self, name):
+        self.marionette.execute_async_script("GaiaApps.uninstallWithName('%s')" % name)
 
     def kill(self, app):
         self.marionette.switch_to_frame()
@@ -86,6 +91,7 @@ return window.wrappedJSObject.WindowManager.getRunningApps();
             time.sleep(2)
         raise TimeoutException('Could not switch to app frame %s in time' % app_frame)
 
+
 class GaiaData(object):
 
     def __init__(self, marionette):
@@ -100,19 +106,57 @@ class GaiaData(object):
     def remove_contact(self, contact):
         self.marionette.execute_script("GaiaDataLayer.findAndRemoveContact(%s)" % contact.json())
 
-    def set_volume(self, volume):
-        self.marionette.execute_script("GaiaDataLayer.setVolume(%s)" % volume)
+    def get_setting(self, name):
+        return self.marionette.execute_async_script('return GaiaDataLayer.getSetting("%s")' % name)
+
+    def set_setting(self, name, value):
+        import json
+        value = json.dumps(value)
+        result = self.marionette.execute_async_script('return GaiaDataLayer.setSetting("%s", %s)' % (name, value))
+        assert result, "Unable to change setting with name '%s' to '%s'" % (name, value)
+
+    def set_volume(self, value):
+        self.set_setting('audio.volume.master', value)
+
+    def enable_cell_data(self):
+        self.set_setting('ril.data.enabled', True)
+
+    def disable_cell_data(self):
+        self.set_setting('ril.data.enabled', False)
+
+    def enable_cell_roaming(self):
+        self.set_setting('ril.data.roaming_enabled', True)
+
+    def disable_cell_roaming(self):
+        self.set_setting('ril.data.roaming_enabled', False)
+
+    def enable_wifi(self):
+        self.set_setting('wifi.enabled', True)
+
+    def disable_wifi(self):
+        self.set_setting('wifi.enabled', False)
+
+    def connect_to_wifi(self, ssid):
+        self.marionette.execute_script("return GaiaDataLayer.connectToWiFi('%s')" % ssid)
+
+    def forget_wifi(self, ssid):
+        self.marionette.execute_script("return GaiaDataLayer.forgetWiFi('%s')" % ssid)
+
 
 class GaiaTestCase(MarionetteTestCase):
 
     def setUp(self):
         MarionetteTestCase.setUp(self)
+        self.marionette.__class__ = type('Marionette', (Marionette, MarionetteTouchMixin), {})
+        self.marionette.setup_touch()
 
         # the emulator can be really slow!
         self.marionette.set_script_timeout(60000)
         self.lockscreen = LockScreen(self.marionette)
         self.apps = GaiaApps(self.marionette)
         self.data_layer = GaiaData(self.marionette)
+
+        self.apps.kill_all()
 
     def wait_for_element_present(self, by, locator, timeout=10):
         timeout = float(timeout) + time.time()
