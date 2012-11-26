@@ -23,10 +23,10 @@ class TestCardsView(GaiaTestCase):
         # app to test against in Cards View
         self.app = self.apps.launch('Calculator')
 
-    def test_cards_view(self):
-
         # wait for the Calculator to load
         self.wait_for_element_displayed(*self._clear_button_locator)
+
+    def test_cards_view(self):
 
         # switch to top level frame before dispatching the event
         self.marionette.switch_to_frame()
