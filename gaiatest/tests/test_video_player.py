@@ -2,39 +2,58 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import time
+
 from gaiatest import GaiaTestCase
 
 
 class TestVideoPlayer(GaiaTestCase):
 
-    # Video player list/summary view
-    _video_items_locator = ('css selector', 'ul#thumbnails li[data-name] img')
+    # Video list/summary view
+    _video_items_locator = ('css selector', 'ul#thumbnails li[data-name]')
+    _video_name_locator = ('css selector', 'p.name')
+
+    # Video player fullscreen
+    _video_frame_locator = ('id', 'videoFrame')
+    _video_loaded_locator = ('css selector', 'video[style]')
+    _video_title_locator = ('id', 'video-title')
+    _elapsed_text_locator = ('id', 'elapsed-text')
+
 
     def setUp(self):
         GaiaTestCase.setUp(self)
 
-
         # unlock the lockscreen if it's locked
         self.assertTrue(self.lockscreen.unlock())
 
-
-
         # launch the Gallery app
         self.app = self.apps.launch('Video')
-
-
+        self.wait_for_element_displayed(*self._video_items_locator)
 
     def test_play_video(self):
 
-        self.wait_for_element_displayed(*self._video_items_locator)
+        first_video = self.marionette.find_elements(*self._video_items_locator)[0]
+        first_video_name = first_video.find_element(*self._video_name_locator).text
 
-        self.marionette.find_elements(*self._video_items_locator)[0].click()
+        # click on the first video
+        first_video.click()
 
-        import time
-        time.sleep(3)
+        # Video will play automatically
+        self.wait_for_element_displayed(*self._video_frame_locator)
+        self.wait_for_element_displayed(*self._video_loaded_locator)
 
-        print self.marionette.page_source
+        # Tap to make toolbar visible
+        self.marionette.tap(self.marionette.find_element(*self._video_frame_locator))
 
+        # Let video play for one second
+        time.sleep(1)
+
+        # The elapsed time > 0:00 is the only indication of the video playing
+        self.assertIsNotNone(self.marionette.find_element(*self._elapsed_text_locator).text)
+        self.assertNotEqual(self.marionette.find_element(*self._elapsed_text_locator).text, "00:00")
+
+        self.assertEqual(first_video_name,
+                        self.marionette.find_element(*self._video_title_locator).text)
 
     def tearDown(self):
 
