@@ -35,10 +35,10 @@ class TestCamera(GaiaTestCase):
 
     def test_capture_a_video(self):
         self.wait_for_capture_ready()
-
         self.marionette.find_element(
             *self._switch_source_button_locator).click()
 
+        self.wait_for_capture_ready()
         self.marionette.find_element(*self._capture_button_locator).click()
 
         self.wait_for_element_displayed(*self._video_timer_locator)
@@ -57,15 +57,10 @@ class TestCamera(GaiaTestCase):
     def wait_for_capture_ready(self):
         self.marionette.set_script_timeout(10000)
         self.marionette.execute_async_script("""
-        function check_ready_state() {
-            if (document.getElementById('viewfinder').readyState > 1) {
-                marionetteScriptFinished();
-            }
-            else {
-                setTimeout(check_ready_state, 500);
-            }
-        }
-        setTimeout(check_ready_state, 0);
+            waitFor(
+                function () { marionetteScriptFinished(); },
+                function () { return document.getElementById('viewfinder').readyState > 1; }
+            );
         """)
 
     def tearDown(self):
