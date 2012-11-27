@@ -17,7 +17,7 @@ class TestCardsView(GaiaTestCase):
         GaiaTestCase.setUp(self)
 
         # unlock the lockscreen if it's locked
-        self.assertTrue(self.lockscreen.unlock())
+        self.lockscreen.unlock()
 
         # launch the Calculator app as a basic, reliable
         # app to test against in Cards View
