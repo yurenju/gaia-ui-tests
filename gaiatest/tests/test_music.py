@@ -19,7 +19,7 @@ class TestMusic(GaiaTestCase):
   def setUp(self):
       GaiaTestCase.setUp(self)
 
-      self.assertTrue(self.lockscreen.unlock())
+      self.lockscreen.unlock()
 
       # launch the Music application
       self.app = self.apps.launch("music")

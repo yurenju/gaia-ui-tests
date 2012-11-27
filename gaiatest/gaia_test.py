@@ -20,10 +20,12 @@ class LockScreen(object):
         self.marionette.import_script(js)
 
     def lock(self):
-        return self.marionette.execute_async_script("GaiaLockScreen.lock()")
+        result = self.marionette.execute_async_script('GaiaLockScreen.lock()')
+        assert result, 'Unable to lock screen'
 
     def unlock(self):
-        return self.marionette.execute_async_script("GaiaLockScreen.unlock()")
+        result = self.marionette.execute_async_script('GaiaLockScreen.unlock()')
+        assert result, 'Unable to unlock screen'
 
 
 class GaiaApp(object):
