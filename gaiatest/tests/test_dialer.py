@@ -79,6 +79,7 @@ class TestDialer(GaiaTestCase):
                 zero_button = self.marionette.find_element('css selector', 'div.keypad-key div[data-value="0"]')
                 self.marionette.long_press(zero_button, 1200)
                 # Wait same time as the long_press to bust the asynchronous
+                # TODO https://bugzilla.mozilla.org/show_bug.cgi?id=815115
                 time.sleep(2)
 
             else:
