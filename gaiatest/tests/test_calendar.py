@@ -22,7 +22,7 @@ class TestCalendar(GaiaTestCase):
         GaiaTestCase.setUp(self)
 
         # unlock the lockscreen if it's locked
-        self.assertTrue(self.lockscreen.unlock())
+        self.lockscreen.unlock()
 
         # launch the Calendar app
         self.app = self.apps.launch('calendar')

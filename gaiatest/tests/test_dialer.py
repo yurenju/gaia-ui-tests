@@ -21,7 +21,7 @@ class TestDialer(GaiaTestCase):
         GaiaTestCase.setUp(self)
 
         # unlock the lockscreen if it's locked
-        self.assertTrue(self.lockscreen.unlock())
+        self.lockscreen.unlock()
 
         # set audio volume to 0
         self.data_layer.set_volume(0)

@@ -45,7 +45,7 @@ class TestContacts(GaiaTestCase):
     def setUp(self):
         GaiaTestCase.setUp(self)
 
-        self.assertTrue(self.lockscreen.unlock())
+        self.lockscreen.unlock()
 
         self.contact = MockContact()
 

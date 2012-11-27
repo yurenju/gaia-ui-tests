@@ -20,7 +20,7 @@ class TestLockScreen(GaiaTestCase):
         GaiaTestCase.setUp(self)
 
         # this time we need it locked!
-        self.assertTrue(self.lockscreen.lock())
+        self.lockscreen.lock()
 
     def test_unlock_swipe_to_homescreen(self):
 
