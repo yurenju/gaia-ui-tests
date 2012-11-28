@@ -22,7 +22,8 @@ class TestCamera(GaiaTestCase):
         self.app = self.apps.launch('camera')
 
     def test_capture_a_photo(self):
-        # https://moztrap.mozilla.org/manage/case/1309/
+        # https://moztrap.mozilla.org/manage/case/1325/
+
         self.wait_for_capture_ready()
 
         self.marionette.find_element(*self._capture_button_locator).click()
@@ -34,6 +35,8 @@ class TestCamera(GaiaTestCase):
             *self._film_strip_image_locator).is_displayed())
 
     def test_capture_a_video(self):
+        # https://moztrap.mozilla.org/manage/case/2477/
+
         self.wait_for_capture_ready()
         self.marionette.find_element(
             *self._switch_source_button_locator).click()
