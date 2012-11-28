@@ -63,11 +63,11 @@ When running your tests add the argument:
 
 Variables:
 
-`this_phone_number` The phone number of the SIM card in your device. Prefix the number with '+' and your international dialing code.
+`this_phone_number (string)` The phone number of the SIM card in your device. Prefix the number with '+' and your international dialing code.
 
-`remote_phone_number` A phone number that your device can call during the tests (try not to be a nuisance!). Prefix the number with '+' and your international dialing code.
+`remote_phone_number (string)` A phone number that your device can call during the tests (try not to be a nuisance!). Prefix the number with '+' and your international dialing code.
 
-`wifi.ssid` This is the SSID/name of your WiFi connection. Currently this does not support WPA/WEP/etc.
+`wifi.ssid (string)` This is the SSID/name of your WiFi connection. Currently this does not support WPA/WEP/etc.
 
 
 Writing Tests
